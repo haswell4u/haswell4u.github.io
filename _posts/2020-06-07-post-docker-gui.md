@@ -6,6 +6,7 @@ tags:
   - Docker
   - GUI
   - Matplotlib
+hidden: true
 ---
 
 ## 포스팅을 하게 된 배경

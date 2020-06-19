@@ -6,7 +6,7 @@ tags:
   - Docker
   - GUI
   - Matplotlib
-hidden: true
+hidden: false
 ---
 
 ## 배경
@@ -60,15 +60,28 @@ Host OS에 따라 크게 macOS와 MS Windows로 나누어 설명 하도록 하�
 대신 Xquartz를 사용하여 macOS에 대한 X window system을 계속 이용 할 수 있다.
 따라서, host OS (macOS) 에 X server를 설치하기 위해 [Xquartz](https://www.xquartz.org/index.html){: target="_blank"} 최신 버전을 설치하도록 하자.<br>
 
-Docker 컨테이너 안에서 macOS의 X server로 접속할 것이므로, 아래의 Allow connections from network clients 옵션을 켜주도록 하자.<br>
+Docker 컨테이너 안에서 macOS의 X server로 접속할 것이므로, 아래의 Allow connections from network clients 옵션을 켜주도록 하자.
 
-이미지;
+![figure3](/assets/images/posts/docker-gui/figure3.png){: .align-center}
+<figure style="display: block; text-align: center;"><figcaption>그림 3: Xquartz 환경설정</figcaption></figure>
 
 다음은 X server에 docker 컨테이너 안의 X client가 접근 할 수 있도록, IP를 허용해 주어야 한다.<br>
 그러나 docker 컨테이너는 실제 원격 컴퓨터가 아니므로 localhost 주소로 접속 할 것이다.<br>
 따라서, 터미널을 열고 다음과 같이 입력하도록 하자.<br>
 
-코드;
+``` bash
+$ xhost localhost
+localhost being added to access control list
+```
+
+xhost명령어로 확인 해보면 localhost가 추가되어있는 것을 확인 할 수있다.
+
+``` bash
+$ xhost
+access control enabled, only authorized clients can connect
+INET:localhost
+INET6:localhost
+```
 
 #### 1-b. MS windows의 경우
 MS windows에서 지원하는 X server는 여럿 있지만 나는 vcxsrv를 사용할 것이다.
@@ -77,8 +90,9 @@ MS windows에서 지원하는 X server는 여럿 있지만 나는 vcxsrv를 사�
 X client는 DISPLAY환경변수에 입력된 내용을 보고 생성된 화면을 X server로 전송한다.<br>
 그래서 docker 컨테이너를 생성할때 환경변수 값으로 DISPLAY변수를 아래와 같이 함께 입력 하도록 하자.<br>
 
-코드;
-
+``` bash
+$ docker create -it -e DISPLAY=host.docker.internal:0 --name tensorflow tensorflow/tensorflow:1.15.2-py3 /bin/bash
+```
 여기서 코드는 DISPLAY변수의 형식은 아래와 같다.
 
 여기서 display 번호는 ~~~~

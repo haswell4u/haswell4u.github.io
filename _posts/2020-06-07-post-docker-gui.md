@@ -6,7 +6,7 @@ tags:
   - Docker
   - GUI
   - Matplotlib
-hidden: false
+hidden: true
 ---
 
 ## 배경

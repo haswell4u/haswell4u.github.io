@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: 오즈의 개발자 블로그
+title: 옥탑방 개발자 블로그
 email:
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
@@ -61,7 +61,7 @@ plugins:
 author:
   name   : "Jaewon Kim"
   avatar : "/assets/images/bio-photo.jpeg"
-  bio    : "오즈의 개발자 블로그입니다.<br>
+  bio    : "옥탑방 개발자 블로그입니다.<br>
             <br>
             내용에 잘못된 부분이 있다면<br>
             메일이나 댓글로 알려주세요!<br>"

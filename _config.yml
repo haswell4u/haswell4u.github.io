@@ -22,6 +22,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 twitter_username: username
 github_username: username
 minimal_mistakes_skin: default
+repository: haswell4u/haswell4u.github.io
 search: true
 
 # Build settings

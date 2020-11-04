@@ -6,7 +6,7 @@ tags:
   - Docker
   - GUI
   - X Window System
-hidden: true
+hidden: false
 ---
 
 ## 배경

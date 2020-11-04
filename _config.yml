@@ -104,6 +104,11 @@ defaults:
       author_profile: true
       classes: wide
 
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "haswell4u-github-io"
+
 category_archive:
   type: liquid
   path: /categories/

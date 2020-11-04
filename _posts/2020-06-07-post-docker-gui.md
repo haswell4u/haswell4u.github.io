@@ -64,7 +64,7 @@ INET6:localhost
 ```
 
 #### 1-b. MS windows의 경우
-MS windows에서 지원하는 X server는 여럿 있지만 그 중 VcXsrv를 사용해 볼 것이다. [여기서](https://github.com/ArcticaProject/vcxsrv){: target="_blank"} VcXsrv 최신버전을 설치 하도록 하자.
+MS windows에서 지원하는 X server는 여럿 있지만 그 중 해외 여러 커뮤니티에서 비교적 평이 좋은 VcXsrv를 사용해 볼 것이다. [여기서](https://github.com/ArcticaProject/vcxsrv){: target="_blank"} VcXsrv 최신버전을 설치 하도록 하자.
 
 VcXsrv를 설치 하고, XLaunch를 실행하면 아래와 같이 설정창이 나타난다.
 
@@ -88,9 +88,9 @@ Start no clinet를 선택하고 넘어가도록하자.
 
 <br>
 ![figure7](/assets/images/posts/docker-gui/figure7.png){: .align-center}
-<figure style="display: block; text-align: center;"><figcaption>그림 8: Finish configuration</figcaption></figure>
+<figure style="display: block; text-align: center;"><figcaption>그림 7: Finish configuration</figcaption></figure>
 
-지금까지의 설정 내용을 Xconfig 파일로 저장하는 버튼이 있는데, 이때 이 파일을 저장하여 시작프로그램에 등록해두면 컴퓨터를 켤때 자동으로 실행되어 유용하다.(win-R shell:startup) 설정이 끝났다면 마침 버튼을 누르도록 하자.
+지금까지의 설정 내용을 Xconfig 파일로 저장하는 버튼이 있는데, 이때 이 파일을 저장하여 시작프로그램(win-R shell:startup)에 등록해두면 컴퓨터를 켤때 자동으로 실행되어 유용하다. 설정이 끝났다면 마침 버튼을 누르도록 하자.
 
 #### 2. Docker 컨테이너 설정
 X server 설치를 마쳤다면, 이제 Docker 컨테이너에 필요한 설정을 해줄 차례이다. X client는 X server에 접속 하기위해 컨테이너 내부에 설정된 DISPLAY 변수값을 사용한다. DISPLAY 변수의 형태는 다음과 같다.
@@ -104,68 +104,55 @@ X server 설치를 마쳤다면, 이제 Docker 컨테이너에 필요한 설정�
 * *`displaynumber`*_:_ 입력 장치와 연결된 모니터를 나타내는 번호이다. 보통 모니터당 하나의 키보드, 마우스를 사용하므로 대부분 0번을 사용하면된다. 그러나 멀티 유저 시스템에서는 다수의 사용자가 모니터와 입력장치로 x client 어플리케이션을 이용할 수 있는데 이때 이 사용자들을 구별하기 위해서 사용하는 번호이다. 다수의 X server를 구별하기 위한 번호라고 이해해도 무방하다.
 * *`screennumber`*_:_ 듀얼모니터와 같은 다수의 모니터와 하나의 입력장치를 사용할 때, 표시할 모니터의 번호를 의미하고 이 값은 생략이 가능하다.
 
-예를 들어 DISPLAY 변수가 `DISPLAY=172.17.0.1:1.0`과 같이 설정 되어있다면, 172.17.0.1
+예를 들어 DISPLAY 변수가 `DISPLAY=172.17.0.1:1.0`과 같이 설정 되어있다면, 172.17.0.1 주소의 1번 디스플레이 안의 0번째 스크린(모니터)에 출력을 하라는 의미이다. 그림으로 표시하면 아래와 같다.
 
-+----------------------------------------+
-|paxbox1.paxco.com|                      |
-+-----------------+                      |
-|                                        |
-|  +----------+----+  +----------+----+  |
-|  |Display :0|    |  |Display :1|    |  |
-|  +----------+    |  +----------+    |  |
-|  |               |  |               |  |
-|  | +-----------+ |  |               |  |
-|  | |Screen :0.0| |  |               |  |
-|  | +-----------+ |  |               |  |
-|  | +-----------+ |  |               |  |
-|  | |Screen :0.1| |  |               |  |
-|  | +-----------+ |  |               |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | |Screen :0.2| |  | |Screen :1.0| |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | |Screen :0.3| |  | |Screen :1.1| |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | | Keyboard  | |  | |  Keyboard | |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  | |   Mouse   | |  | |   Mouse   | |  |
-|  | +-----------+ |  | +-----------+ |  |
-|  +---------------+  +---------------+  |
-|                                        |
-+----------------------------------------+
+<br>
+![figure8](/assets/images/posts/docker-gui/figure8.png){: .align-center}
+<figure style="display: block; text-align: center;"><figcaption>그림 8: DISPLAY 변수 값이 172.17.0.1:1.0 일 때 화면이 출력되는 위치(붉은 테두리) 예시</figcaption></figure>
 
-Ubuntu 기본 이미지를 사용하여 Firefox를 설치하고 host OS에서 Firefox에 대한 GUI를 실행해 보자. Docker 컨테이너를 생성하는 방법을 비롯한 기본적인 지식은 알고 있다고 가정 할 것이다.
+이제 Docker 컨테이너 안에서 host OS의 X server에 접속하려면 DISPLAY 변수를 어떻게 설정해야 할까? displaynumber는 X server를 설치할때 설정(따로 설정이 없으면 0) 했으니 알 수 있고 screennumber도 모니터의 개수에 따라 알수있다. hostname 값이 문제가 되는데, localhost로 설정한다면 이 loopback주소는 host OS의 컴퓨터를 의미하는 것이 아닌 컨테이너 자체를 의미한다. 이런 문제로 인해 Docker는 host OS에 접근하기 위한 DNS를 다음과 같이 내부적으로 지원한다.
 
+*`host.docker.internal`*
+{: .text-center}
 
+그렇다. 예를들어 host OS의 8000번 포트에 접근하고 싶다면 host.docker.internal:8000과 같이 접근하면 되는 것이다.
 
+따라서 Docker 컨테이너를 생성 할때 다음과 같이 환경변수를 추가해 주면 될 것이다.
 
-
-
-Host name: 사용할 display가 연결된 컴퓨터의 이름 이나 IP주소를 의미한다. (google.com, 10.2.3.4)
-displaynumber: 입력 장치와 연결된 모니터를 나타내는 번호이다. 보통 하나의 모니터당 하나의 키보드, 마우스를 사용하므로 대부분 0번을 사용하면된다. 그러나 멀티 유저 시스템에서는 다수의 사용자가 다수의 모니터와 입력장치로 x client 어플리케이션을 이용할 수 있는데 이때 이 사용자들을 구별하기 위해서 사용하는 번호이다.
-screennumber: 하나의 모니터와 하나의 입력장치를 사용하지만 최근에는 듀얼모니터와 같은 다수의 모니터와 하나의 입력장치를 많이 사용한다. 이때 표시할 모니터의 번호를 의미하고 이 값은 생략이 가능하다.
-
-원리를 이해 했다면, Ubuntu 이미지 안의 X client가 localhost 주소로 host OS에 접근하기 위해서는 어떻게 컨테이너를 설정해야 할까? 가장 
-
-그러나 docker 컨테이너는 네트워크도 격리되어 있으므로, 컨테이너 안에서의 localhost는 말그대로 컨테이너의 localhost이다. (Host OS의 localhost가 아니다.) 그럼 host OS의 X server 포트에 접근하기 위한 IP는 무엇일까? Docker는 host OS에 접근하기 위한 DNS를 다음과 같이 내부적으로 지원한다.
-
-`host.docker.internal`
-<br><br>
-이제 host OS에 접근하는 DNS를 알게 되었으니 그렇다면 어떻게 설정 하는 것일까? (2번 질문) X client는 DISPLAY라는 시스템 환경변수에 입력된 내용을 보고 생성된 화면을 X server로 전송한다. DISPLAY 변수는 다음과 같은 구조로 이루어져 있다.
-
-그래서 docker 컨테이너를 생성할때 환경변수 값으로 DISPLAY변수를 아래와 같이 함께 입력 하도록 하자.<br>
 ``` bash
-$ docker create -it -e DISPLAY=host.docker.internal:0 --name ubuntu ubuntu:18.04 /bin/bash
+$ docker create -it -e DISPLAY=host.docker.internal:0.0 --name ubuntu ubuntu:18.04 /bin/bash
 ```
-여기서 코드는 DISPLAY변수의 형식은 아래와 같다.
 
-여기서 display 번호는 ~~~~
-screen 번호는 ~~~
+## 예시
+이제까지 알게된 내용이 잘 동작 하는지 실제로 테스트를 해보자. 기본 Ubuntu 컨테이너에 Firefox를 설치 한 후 Firefox의 GUI를 host OS에서 실행 하도록 해 볼 것이다.
 
-따라서 ~~~~~
+[방법](#방법)의 X server 설치를 마쳤다면, ubuntu 컨테이너를 환경변수와 같이 생성 해보자. 이 예시에서는 아래와 같이 생성 하였다.
+
+``` bash
+(hostOS) $ docker run -it -e DISPLAY=host.docker.internal:0.0 --name ubuntu ubuntu:18.04 /bin/bash
+```
+
+이제 컨테이너 안에서 아래와 같이 FireFox를 설치 해보자.
+
+``` bash
+(ubuntu container) $ apt update
+(ubuntu container) $ apt install firefox
+```
+
+마지막으로 Firefox를 실행하면 아래와 같이 잘 실행되는 것을 볼 수 있다.
+
+``` bash
+(ubuntu container) $ firefox
+```
+// 이미지 추가
 
 ## 요약
+1. host OS에 X server를 설치
+2. Docker 컨테이너 내부에 DISPLAY 환경변수 설정
+3. Application 실행 
+
+## 참고
+* X.Org Foundation, [https://www.x.org/wiki/](https://www.x.org/wiki/){: target="_blank"}
+* Wikipedia (X Window System), [https://en.wikipedia.org/wiki/X_Window_System](https://en.wikipedia.org/wiki/X_Window_System){: target="_blank"}
 
 <link href="/assets/css/page.css" rel="stylesheet" />

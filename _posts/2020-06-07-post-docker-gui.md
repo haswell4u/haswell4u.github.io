@@ -90,7 +90,7 @@ Start no clinet를 선택하고 넘어가도록하자.
 ![figure7](/assets/images/posts/docker-gui/figure7.png){: .align-center}
 <figure style="display: block; text-align: center;"><figcaption>그림 7: Finish configuration</figcaption></figure>
 
-지금까지의 설정 내용을 Xconfig 파일로 저장하는 버튼이 있는데, 이때 이 파일을 저장하여 시작프로그램(win-R shell:startup)에 등록해두면 컴퓨터를 켤때 자동으로 실행되어 유용하다. 설정이 끝났다면 마침 버튼을 누르도록 하자.
+지금까지의 설정 내용을 config.xlaunch 파일로 저장하는 버튼이 있는데, 이때 이 파일을 저장하여 시작프로그램(win-R shell:startup)에 등록해두면 컴퓨터를 켤때 자동으로 실행되어 유용하다. 설정이 끝났다면 마침 버튼을 누르도록 하자.
 
 #### 2. Docker 컨테이너 설정
 X server 설치를 마쳤다면, 이제 Docker 컨테이너에 필요한 설정을 해줄 차례이다. X client는 X server에 접속 하기위해 컨테이너 내부에 설정된 DISPLAY 변수값을 사용한다. DISPLAY 변수의 형태는 다음과 같다.

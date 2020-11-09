@@ -15,7 +15,7 @@ hidden: true
 급한 분들은 아래 [방법](#방법)을 바로 참고 하면 될 것이다.
 
 ## 원리
-X window system을 활용하여 컨테이너 안에서 GUI를 사용 할 수 있다고 했는데, 그럼 **X window system**란 무엇일까? X window system은 주로 UNIX 계열 운영체제에서 사용되는 GUI인데, 여기서 window system이란 말그대로 '창'개념을 도입한 GUI이다. 우리가 흔히 보는 macOS나 MS windows의 GUI는 전형적인 window system에 속하며, 각각 Quartz Compositor나 Desktop Window Manager와 같은 고유의 window system을 사용하여 GUI를 표현한다. 그렇다면 X window system은 기존의 window system들과 어떤 점이 다른 것인가? 아래의 내용은 wikipedia의 X window system에 대한 내용 중 일부를 발췌한 것이다.
+X window system을 활용하여 컨테이너 안에서 GUI를 사용 할 수 있다고 했는데, 그럼 **X window system**란 무엇일까? X window system은 주로 UNIX 계열 운영체제에서 사용되는 GUI로서, 여기서 window system이란 말그대로 '창'개념을 도입한 GUI이다. 우리가 흔히 보는 macOS나 MS Windows의 GUI는 전형적인 window system에 속하며, 각각 Quartz Compositor나 Desktop Window Manager와 같은 고유의 window system을 사용하여 GUI를 표현한다. 그렇다면 X window system은 기존의 window system들과 어떤 점이 다른 것인가? 아래의 내용은 Wikipedia의 X window system에 대한 내용 중 일부를 발췌한 것이다.
 
 > X was specifically designed to be used over network connections rather than on an integral or attached display device. - Wikipedia
 
@@ -39,7 +39,7 @@ X window system을 활용하여 컨테이너 안에서 GUI를 사용 할 수 있
 Docker는 리눅스 컨테이너를 기반하여 동작하므로, X window system을 기본적으로 지원한다. 따라서 우리는 host OS에서 X server만 설치해 주면 Docker 컨테이너 안에 있는 응용 프로그램의 GUI를 host OS에서 제공 받을 수 있다. X server 설치와 설정 방법을 host OS에 따라 크게 macOS와 MS Windows로 나누어 설명 하도록 하겠다.
 
 #### 1-a. macOS의 경우
-전에는 macOS에서 기본적으로 X window system을 지원 했지만 현재는 더이상 지원하지 않는다. 대신 Xquartz를 사용하여 macOS에 대한 X window system을 계속 이용 할 수 있다. 따라서, host OS(macOS)에 X server를 설치하기 위해 [여기서](https://www.xquartz.org/index.html){: target="_blank"} Xquartz 최신 버전을 설치하도록 하자. 설치를 마쳤다면, Xquartz의 환경 설정에서 아래에 표시된 옵션을 켜주도록 하자.
+전에는 macOS에서 기본적으로 X window system을 지원 했지만 현재는 더이상 지원하지 않는다. 대신 Xquartz를 사용하여 macOS에 대한 X window system을 계속 이용 할 수 있다. 따라서, macOS(host OS)에 X server를 설치하기 위해 [여기서](https://www.xquartz.org/index.html){: target="_blank"} Xquartz 최신 버전을 다운받아 설치하도록 하자. 설치를 마쳤다면, Xquartz의 환경 설정에서 아래에 표시된 옵션을 꼭 켜주어야 한다.
 
 <br>
 ![figure3](/assets/images/posts/docker-gui/figure3.png){: .align-center}
@@ -63,8 +63,8 @@ INET:localhost
 INET6:localhost
 ```
 
-#### 1-b. MS windows의 경우
-MS windows에서 지원하는 X server는 여럿 있지만 그 중 해외 여러 커뮤니티에서 비교적 평이 좋은 VcXsrv를 사용해 볼 것이다. [여기서](https://github.com/ArcticaProject/vcxsrv){: target="_blank"} VcXsrv 최신버전을 설치 하도록 하자.
+#### 1-b. MS Windows의 경우
+MS Windows에서 지원하는 X server는 여럿 있지만 그 중 해외 여러 커뮤니티에서 비교적 설치가 쉽고 빠른 장점으로 평이 좋은 VcXsrv를 사용해 볼 것이다. [여기서](https://github.com/ArcticaProject/vcxsrv){: target="_blank"} VcXsrv 최신버전을 다운받아 설치 하도록 하자.
 
 VcXsrv를 설치 하고, XLaunch를 실행하면 아래와 같이 설정창이 나타난다.
 
@@ -72,7 +72,7 @@ VcXsrv를 설치 하고, XLaunch를 실행하면 아래와 같이 설정창이 �
 ![figure4](/assets/images/posts/docker-gui/figure4.png){: .align-center}
 <figure style="display: block; text-align: center;"><figcaption>그림 4: Display settings</figcaption></figure>
 
-원하는 display type을 선택하고, display number를 입력하도록하자. 이 예시에서는 display type의 경우 muliple windows, display number의 경우 -1 (기본값 - 자동설정)을 선택했다. display number의 경우 0을 사용해도 무방하다. Display number의 의미는 뒤에서 설명 하도록 하겠다.
+원하는 display type을 선택하고, display number를 입력하도록하자. 이 예시에서는 display type의 경우 muliple windows, display number의 경우 -1(기본값 - 자동설정)을 선택했다. Display number의 경우 0을 사용해도 무방하다. Display number의 의미는 뒤에서 설명 하도록 하겠다.
 
 <br>
 ![figure5](/assets/images/posts/docker-gui/figure5.png){: .align-center}
@@ -90,7 +90,11 @@ Start no clinet를 선택하고 넘어가도록하자.
 ![figure7](/assets/images/posts/docker-gui/figure7.png){: .align-center}
 <figure style="display: block; text-align: center;"><figcaption>그림 7: Finish configuration</figcaption></figure>
 
-지금까지의 설정 내용을 config.xlaunch 파일로 저장하는 버튼이 있는데, 이때 이 파일을 저장하여 시작프로그램(win-R shell:startup)에 등록해두면 컴퓨터를 켤때 자동으로 실행되어 유용하다. 설정이 끝났다면 마침 버튼을 누르도록 하자.
+지금까지의 설정 내용을 config.xlaunch 파일로 저장하는 버튼이 있는데, 이때 이 파일을 저장하여 시작프로그램(win-R shell:startup)에 등록해두면 컴퓨터를 켤때 자동으로 실행되어 유용하다. 설정이 끝났다면 마침 버튼을 누르고 config.xlaunch 파일을 실행하자. 아래와 같이 작업 표시줄에 아이콘이 생성 되는 것을 확인 할 수 있다.
+
+<br>
+![figure8](/assets/images/posts/docker-gui/figure8.png){: .align-center}
+<figure style="display: block; text-align: center;"><figcaption>그림 8: VcXsrv 실행 표시 아이콘</figcaption></figure>
 
 #### 2. Docker 컨테이너 설정
 X server 설치를 마쳤다면, 이제 Docker 컨테이너에 필요한 설정을 해줄 차례이다. X client는 X server에 접속 하기위해 컨테이너 내부에 설정된 DISPLAY 변수값을 사용한다. DISPLAY 변수의 형태는 다음과 같다.

@@ -18,7 +18,7 @@ hidden: true
 
 그런데 문제는 Docker를 쓰면 컨테이너 안에서 GUI(Graphic User Interface)를 지원하는 application을 쓸 수가 없다는 것이다! 연구 특성상 실험 결과에 대한 그래프를 뽑아 볼일이 많았는데, matplotlib의 `plt.show()`와 같은 함수를 쓸 수가 없으니 여간 불편한 일이 아니었다. 그래서 Docker 컨테이너 안에서 GUI application을 사용하는 방법을 찾아보게 되었고, X window system을 활용하여 해결한 방법을 찾게 되었다. 이때 방법을 찾아보면서 얻은 정보들을 예시와 함께 블로그에 정리해 두고자 포스팅을 시작하게 되었다.
 
-급한 분들은 아래 [방법](#X Server 설치와 컨테이너 설정 방법)과 [예시](#실제 테스트)를 바로 참고 하면 될 것이다.
+급한 분들은 아래 [방법](#x-server-설치와-컨테이너-설정-방법)과 [예시](#실제-테스트)를 바로 참고 하면 될 것이다.
 
 ## X Window System 이란?
 X window system을 활용하여 컨테이너 안에서 GUI를 사용 할 수 있다고 했는데, X window system란 무엇일까?
